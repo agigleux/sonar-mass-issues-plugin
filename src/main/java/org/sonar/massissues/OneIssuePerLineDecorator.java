@@ -34,7 +34,7 @@ import org.sonar.api.rule.RuleKey;
 @DependedUpon(DecoratorBarriers.ISSUES_ADDED)
 public class OneIssuePerLineDecorator implements Decorator {
 
-  public static final RuleKey RULE_KEY = RuleKey.of("massissues", "OneIssuePerLine");
+  public static final RuleKey RULE_KEY = RuleKey.of(MassIssuesRules.REPOSITORY_KEY, "OneIssuePerLine");
 
   private final ResourcePerspectives perspectives;
 
@@ -44,7 +44,6 @@ public class OneIssuePerLineDecorator implements Decorator {
 
   @DependsUpon
   public Metric dependsUponLinesMeasure() {
-    // UGLY - this method is marked as unused by IDE
     return CoreMetrics.LINES;
   }
 
@@ -60,7 +59,7 @@ public class OneIssuePerLineDecorator implements Decorator {
           issuable.addIssue(issuable.newIssueBuilder()
             .line(line)
             .ruleKey(RULE_KEY)
-            .message("This issue is generated on each line")
+            .message("Do not write code")
             .build());
         }
       }

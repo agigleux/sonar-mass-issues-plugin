@@ -27,9 +27,10 @@ import java.util.List;
 
 public class MassIssuesRules extends RuleRepository {
 
+  public static final String REPOSITORY_KEY = "massissues";
+
   public MassIssuesRules() {
-    // UGLY - repository key is unique among all languages. So why constructor requires language ?
-    super("massissues", "java");
+    super(REPOSITORY_KEY, "java");
     setName("Mass Issues");
   }
 
