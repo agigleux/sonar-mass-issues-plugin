@@ -1,7 +1,7 @@
 /*
  * SonarQube mass-issues Plugin
- * Copyright (C) 2014 SonarSource
- * dev@sonar.codehaus.org
+ * Copyright (C) 2014-2016 SonarSource SA
+ * mailto:contact AT sonarsource DOT com
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -13,18 +13,16 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program; if not, write to the Free Software Foundation,
+ * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 package org.sonar.massissues;
 
-import org.sonar.massissues.MassIssuesRules;
-import org.sonar.massissues.OneIssuePerLineDecorator;
-import org.sonar.api.SonarPlugin;
-
 import java.util.Arrays;
 import java.util.List;
+
+import org.sonar.api.SonarPlugin;
 
 public final class MassIssuesPlugin extends SonarPlugin {
 
@@ -32,7 +30,7 @@ public final class MassIssuesPlugin extends SonarPlugin {
   public List getExtensions() {
     return Arrays.asList(
       MassIssuesRules.class,
-      OneIssuePerLineDecorator.class
+      MassIssuesSensor.class
     );
   }
 }

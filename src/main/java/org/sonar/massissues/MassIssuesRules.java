@@ -1,7 +1,7 @@
 /*
  * SonarQube mass-issues Plugin
- * Copyright (C) 2014 SonarSource
- * dev@sonar.codehaus.org
+ * Copyright (C) 2014-2016 SonarSource SA
+ * mailto:contact AT sonarsource DOT com
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -13,31 +13,29 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program; if not, write to the Free Software Foundation,
+ * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 package org.sonar.massissues;
 
-import org.sonar.api.rules.Rule;
-import org.sonar.api.rules.RuleRepository;
-
-import java.util.Arrays;
-import java.util.List;
-
-public class MassIssuesRules extends RuleRepository {
+public class MassIssuesRules implements org.sonar.api.server.rule.RulesDefinition {
 
   public static final String REPOSITORY_KEY = "massissues";
 
-  public MassIssuesRules() {
-    super(REPOSITORY_KEY, "java");
-    setName("Mass Issues");
-  }
-
   @Override
-  public List<Rule> createRules() {
-    return Arrays.asList(
-      Rule.create(OneIssuePerLineDecorator.RULE_KEY.repository(), OneIssuePerLineDecorator.RULE_KEY.rule()).setName("One issue per line").setDescription("Generates one issue per line !")
-    );
+  public void define(Context context) {
+    NewRepository repository = context.createRepository(REPOSITORY_KEY, "java").setName("Mass Issues");
+
+    NewRule oneIssueByLineRule = repository.createRule("oneIssueByLine")
+      .setName("One issue per line")
+      .setHtmlDescription("Generates one issue per line !");
+
+    oneIssueByLineRule
+      .setDebtSubCharacteristic("INTEGRATION_TESTABILITY")
+      .setDebtRemediationFunction(oneIssueByLineRule.debtRemediationFunctions().linearWithOffset("1h", "30min"));
+
+    // don't forget to call done() to finalize the definition
+    repository.done();
   }
 }
